@@ -1,0 +1,13 @@
+<launch>  
+
+
+  <!-- Launch RAS Group 8 Camera1 Node -->
+  <node pkg="ras_group8_camera1" type="color_detect_node" name="colordect" output="screen">
+   
+  </node>
+ 
+
+
+
+
+</launch>
