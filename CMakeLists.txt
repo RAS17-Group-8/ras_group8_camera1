@@ -143,6 +143,10 @@ add_executable(depth_node src/ras_group8_camerad_node.cpp)
 add_executable(blob_detector_node src/ras_group8_blob_detector_node.cpp)
 
 add_executable(get_color_values src/get_color_values.cpp)
+
+add_executable(SVM_colors src/SVM_for_colors.cpp)
+
+add_executable(make_dataset_smaller src/make_dataset_smaller.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -170,6 +174,13 @@ add_executable(get_color_values src/get_color_values.cpp)
    ${catkin_LIBRARIES}
  )
 
+target_link_libraries(SVM_colors
+   ${catkin_LIBRARIES}
+ )
+
+target_link_libraries(make_dataset_smaller
+   ${catkin_LIBRARIES}
+ )
 #############
 ## Install ##
 #############
