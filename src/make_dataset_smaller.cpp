@@ -32,13 +32,13 @@ int main() {
     ifstream Sat;
 
     ofstream Hfile;
-    Hfile.open("/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/blue_smaller_H.dat", fstream::app);
+    Hfile.open("/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/battery_smaller_H.dat", fstream::app);
     ofstream Sfile;
-    Sfile.open("/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/blue_smaller_S.dat", fstream::app);
+    Sfile.open("/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/battery_smaller_S.dat", fstream::app);
 
 
-    Hue.open("/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/blue_H.dat");
-    Sat.open("/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/blue_S.dat");
+    Hue.open("/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/battery_H.dat");
+    Sat.open("/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/battery_S.dat");
 
 
 
@@ -51,18 +51,19 @@ int main() {
 
         Sat >> s;
 
-        if ( i % 2 == 0 && i< 1200){
+        if ( i % 2 == 0 /*&& i< 1200*/){
 
             Hfile << ToString(h) << endl;
             Sfile << ToString(s) << endl;
 
         }
 
+        /*
         if(i>1200){
             Hfile << ToString(h) << endl;
             Sfile << ToString(s) << endl;
         }
-
+*/
         i++;
     }
 

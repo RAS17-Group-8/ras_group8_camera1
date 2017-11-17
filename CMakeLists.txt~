@@ -147,6 +147,8 @@ add_executable(get_color_values src/get_color_values.cpp)
 add_executable(SVM_colors src/SVM_for_colors.cpp)
 
 add_executable(make_dataset_smaller src/make_dataset_smaller.cpp)
+
+add_executable(evaluate_errors src/evaluate_errors.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
