@@ -134,11 +134,11 @@ int main() {
             //resultFile >> result_matrix.at<int>(lin,col) ;
              //resultFile >> result_matrix[lin][col];//result_matrix.at<int>(lin,col) ;
             resultFile >> result_matrix[lin][col];
-            cout << result_matrix[lin][col];//result_matrix.at<int>(0,1);
+            //cout << result_matrix[lin][col];//result_matrix.at<int>(0,1);
             //cout <<result_matrix.at<int>(0,1) << " ";
         }
 
-        cout << endl;
+        //cout << endl;
     }
     resultFile.close();
     ROS_INFO("B");
@@ -170,8 +170,7 @@ int main() {
 
         //correct_count += (result_matrix.at<int>((int)trainingData[i][1],(int)trainingData[i][0]) == label_vec[i] );
         correct_count += (result_matrix[(int)vec[i][1]][(int)vec[i][0]] == label_vec[i] );
-
-        itr;
+        itr++;
 
     }
     cout << "test error: " << correct_count / itr << endl;

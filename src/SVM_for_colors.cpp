@@ -41,7 +41,7 @@ int main() {
                           "/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/dark_green_H.dat",
                           "/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/light_green_H.dat",
                           "/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/battery_smaller_H.dat",
-                          "/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/trap_H.dat"};
+                          "/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/trap_H.dat"  };
 
     string sat_files[9] = {"/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/orange_S.dat",
                            "/home/ras28/catkin_ws/src/ras_group8/ras_group8_camera1/pcl_data_for_color_classification/red_S.dat",
@@ -118,7 +118,7 @@ int main() {
     params.svm_type    = CvSVM::C_SVC;
     params.C           = 1;
     params.kernel_type = CvSVM::RBF;
-    params.term_crit   = cvTermCriteria(CV_TERMCRIT_ITER, (int)1e6, 1e-5);
+    params.term_crit   = cvTermCriteria(CV_TERMCRIT_ITER, (int)10, 1e-5);
     params.gamma = 0.001;
     //params.degree = 3;
 
@@ -136,6 +136,7 @@ int main() {
     cout <<"imrows: " << image.rows << endl;
     cout <<"imcols: " << image.cols << endl;
 
+/*
     // Show the decision regions given by the SVM
     for (int i = 0; i < image.rows; i++)
         for (int j = 0; j < image.cols; j++)
@@ -172,6 +173,7 @@ int main() {
                  image.at<Vec3b>(i,j)  = light_green;
                  //result_matrix.at<int>(i,j) = 6;
                 }
+            /*
             else if (response == 7){
                  image.at<Vec3b>(i,j)  = battery;
                  //result_matrix.at<int>(i,j) = 7;
@@ -179,47 +181,9 @@ int main() {
             else if (response == 8){
                  image.at<Vec3b>(i,j)  = trap;
                  //result_matrix.at<int>(i,j) = 8;
-                }
+                }*/
 
-            /*            if (response == 0){
-                image.at<Vec3b>(i,j)  = orange;
-                result_matrix.at<int>(j,i) = 0;
-               }
-            else if (response == 1){
-                 image.at<Vec3b>(i,j)  = red;
-                 result_matrix.at<int>(j,i) = 1;
-                }
-            else if (response == 2){
-                 image.at<Vec3b>(i,j)  = yellow;
-                 result_matrix.at<int>(j,i) = 2;
-                }
-            else if (response == 3){
-                 image.at<Vec3b>(i,j)  = purple;
-                 result_matrix.at<int>(j,i) = 3;
-                }
-            else if (response == 4){
-                 image.at<Vec3b>(i,j)  = blue;
-                 result_matrix.at<int>(j,i) = 4;
-                }
-            else if (response == 5){
-                 image.at<Vec3b>(i,j)  = green;
-                 result_matrix.at<int>(j,i) = 5;
-                }
-            else if (response == 6){
-                 image.at<Vec3b>(i,j)  = light_green;
-                 result_matrix.at<int>(j,i) = 6;
-                }
-            else if (response == 7){
-                 image.at<Vec3b>(i,j)  = battery;
-                 result_matrix.at<int>(j,i) = 7;
-                }
-            else if (response == 8){
-                 image.at<Vec3b>(i,j)  = trap;
-                 result_matrix.at<int>(j,i) = 8;
-                }
-*/
-
-        }
+     //   }
 
 
 
@@ -240,7 +204,8 @@ int main() {
     ROS_INFO("B");
 
 
-    /*
+
+
     // Show the training data
     int thickness = -1;
     int lineType = 8;
@@ -268,7 +233,32 @@ int main() {
         else if (labels[i] == 8)
             circle( image, Point((int)trainingData[i][0],  (int)trainingData[i][1]), 1, (Scalar)trap, thickness, lineType);
 
-    }*/
+    }
+
+
+    //For finding region to cut out from decision:
+    Vec3b white(255,255,255);
+
+    int orange_sat_limit = 0.7*255;
+    int orange_hue_limit = 90;
+
+    int green_sat_limit = 0.5*255;
+    int green_hue_limit = 210;
+
+
+    for(int hue = 0; hue< orange_hue_limit; hue++){
+        image.at<Vec3b>(orange_sat_limit,hue)  = white;
+    }
+    for(int hue = orange_hue_limit; hue< green_hue_limit; hue++){
+        image.at<Vec3b>(green_sat_limit,hue)  = white;
+    }
+    for(int sat = green_sat_limit; sat< orange_sat_limit; sat++){
+        image.at<Vec3b>(sat,orange_hue_limit)  = white;
+    }
+    for(int sat = 0; sat< green_sat_limit; sat++){
+        image.at<Vec3b>(sat,green_hue_limit)  = white;
+    }
+
 
 
     /*circle( image, Point(501,  10), 5, Scalar(  0,   0,   0), thickness, lineType);
