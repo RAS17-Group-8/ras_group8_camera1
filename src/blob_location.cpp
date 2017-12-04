@@ -14,6 +14,7 @@
 #include "std_msgs/Int32MultiArray.h"
 #include "opencv2/opencv.hpp"
 //to read and write file:
+#include <math.h>
 #include <fstream>
 #include <string>
 
@@ -218,6 +219,24 @@ public:
     int ypos;
     int iteration = 0;
 
+
+    float PI = 3.1416;
+    float dy_from_middle = 188.7; //mm
+    int h_Im = rows;
+    int w_Im = cols;
+    float a = 231; //mm
+    float C = 144.82*PI/180;
+    float C1 = PI - C;
+    float d_floor_y;
+
+    float angle;
+
+    int h_rel;
+    int w_rel;
+
+    float w_floor;
+    float w_real;
+
     for(std::vector<cv::KeyPoint>::iterator blobIterator = keypoints.begin(); blobIterator != keypoints.end(); blobIterator++){
        std::cout << "size of blob is: " << blobIterator->size << std::endl;
        std::cout << "point is at: " << blobIterator->pt.x << " " << blobIterator->pt.y << std::endl;
@@ -230,9 +249,27 @@ public:
        center_array.data.push_back(ypos);//blobIterator->pt.y);
 
 
+
        //manipulate blob here:
        //FOR GETTING LOCATION:
 
+       //if x horizontal, y vertical..?
+       h_rel = xpos - h_Im/2;
+       w_rel = ypos - w_Im/2;
+       if(h_rel<0){
+           angle = h_rel*23.8/(h_Im*2) * PI/180;
+           d_floor_y = dy_from_middle+ sin(angle)*231/sin(PI/180*(180-144.82)-angle);
+       }
+       else{
+           angle = -h_rel*23.8/(h_Im*2) * PI/180;
+           d_floor_y = dy_from_middle+ sin(angle)*231/sin(PI/180*(180-35.18)-angle);
+       }
+
+       w_floor = 352/660 * d_floor_y;
+       w_real = w_rel / (w_Im/2) * w_floor;
+
+
+       cout << "floor x: " << d_floor_y << "y: " << w_real<< endl;
 
 
        // FOR GETTING COLOR:
@@ -253,7 +290,7 @@ public:
            S = HSVPoint.val[1];
            //ROS_INFO("3");
 
-           cout << "H: " << H << " S: " << S << endl;
+           //cout << "H: " << H << " S: " << S << endl;
            //For removing H and S values with high ambiguity:
            if(S>orange_sat_limit || (S>green_sat_limit && H>orange_hue_limit) || H>green_hue_limit){
                //number_of_color_votes++;

@@ -12,6 +12,7 @@
 #include "std_msgs/MultiArrayLayout.h"
 #include "std_msgs/MultiArrayDimension.h"
 #include "std_msgs/Int32MultiArray.h"
+#include "std_msgs/Float32MultiArray.h"
 #include "opencv2/opencv.hpp"
 //to read and write file:
 #include <fstream>
@@ -42,6 +43,9 @@ class ImageConverter
   //ros::Publisher pub_center;
   std::vector<ros::Publisher> pub_center_point;
 
+  std::vector<ros::Publisher> pub_color_probs;
+
+  std_msgs::Float32MultiArray color_probabilities;
 
 
 public:
@@ -203,13 +207,19 @@ public:
 
     //cout << "keypoints size:" << keypoints.size() << endl;
 
-    for (int i = 0; i < keypoints.size(); ++i)
+    int max_clusters = 3;
+
+    for (int i = 0; i < max_clusters; ++i) // keypoints.size(); ++i)
     {
         std::string topicName = "/blob/center" + boost::lexical_cast<std::string>(i);
 
         ros::Publisher pub1 = nh_.advertise<std_msgs::Int32MultiArray>(topicName, 1);
 
         pub_center_point.push_back(pub1);
+
+        std::string topicName2 = "/blob/color_prob/cluster" + boost::lexical_cast<std::string>(i);
+        ros::Publisher pub2 = nh_.advertise<std_msgs::Float32MultiArray> (topicName2, 1);
+        pub_color_probs.push_back(pub2);
     }
 
 
@@ -259,6 +269,12 @@ public:
                          << endl;
 
        pub_center_point[iteration].publish(center_array);
+
+
+       color_probabilities.data.clear();
+
+       for (int itr1 = 0; itr1<9; itr1 ++) color_probabilities.data.push_back(color_votes[itr1]);
+       pub_color_probs[iteration].publish(color_probabilities);
 
        iteration++;
     }
