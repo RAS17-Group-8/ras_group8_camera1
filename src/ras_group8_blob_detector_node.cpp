@@ -59,12 +59,12 @@ public:
 
     //pub_center = nh_.advertise<std_msgs::Int32MultiArray>("center_of_object", 1);
 
-    cv::namedWindow(OPENCV_WINDOW);
+    //cv::namedWindow(OPENCV_WINDOW);
   }
 
   ~ImageConverter()
   {
-    cv::destroyWindow(OPENCV_WINDOW);
+    //cv::destroyWindow(OPENCV_WINDOW);
   }
 
   void imageCb(const sensor_msgs::ImageConstPtr& msg)
@@ -170,8 +170,10 @@ public:
 
     Mat im_with_keypoints;
     drawKeypoints( im, keypoints, im_with_keypoints, Scalar(0,0,255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS );
-    // Show blobs
-    cv::imshow(OPENCV_WINDOW, im_with_keypoints);
+
+
+    // Show blobs !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+    //cv::imshow(OPENCV_WINDOW, im_with_keypoints);
 
 
 
@@ -226,8 +228,8 @@ public:
 
     int iteration = 0;
     for(std::vector<cv::KeyPoint>::iterator blobIterator = keypoints.begin(); blobIterator != keypoints.end(); blobIterator++){
-       std::cout << "size of blob is: " << blobIterator->size << std::endl;
-       std::cout << "point is at: " << blobIterator->pt.x << " " << blobIterator->pt.y << std::endl;
+       //std::cout << "size of blob is: " << blobIterator->size << std::endl;
+       //std::cout << "point is at: " << blobIterator->pt.x << " " << blobIterator->pt.y << std::endl;
 
        center_array.data.clear();
 
@@ -253,20 +255,22 @@ public:
            S = HSVPoint.val[1];
            //ROS_INFO("3");
 
-           cout << "H: " << H << " S: " << S << endl;
+           //cout << "H: " << H << " S: " << S << endl;
            //For removing H and S values with high ambiguity:
            if(S>orange_sat_limit || (S>green_sat_limit && H>orange_hue_limit) || H>green_hue_limit){
                //number_of_color_votes++;
                color_votes[result_matrix[(int)S-1][(int)H-1]]++;
            }
+
            //ROS_INFO("4");
        }
 
        for(int itr=0; itr<9;itr++) color_votes[itr] /= 50;
+/*
        std::cout << "orange:" << color_votes[0] << " red:" << color_votes[1] << " yellow:" << color_votes[2]
                     << " purple:" << color_votes[3] << " blue:" << color_votes[4] << " dark_green:" << color_votes[5]
                        <<" light green:" << color_votes[6] <<" battery:" << color_votes[7] << " trap:" << color_votes[8]
-                         << endl;
+                         << endl;*/
 
        pub_center_point[iteration].publish(center_array);
 
@@ -312,7 +316,7 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "image_converter");
   ImageConverter ic;
   //Slower loop rate perhaps when training:
-  ros::Rate loop_rate(2);
+  ros::Rate loop_rate(0.3);
   for (;;) {
       ros::spinOnce();
       loop_rate.sleep();
