@@ -44,9 +44,9 @@ public:
     : it_(nh_)
   {
     // Subscrive to input video feed and publish output video feed
-    
+
     center=cv::Point2i (0,0);
-    
+
     image_sub_ = it_.subscribe("/camera/depth/image_raw", 1,
       &ImageConverter::imageCb,this);
     gettarget_=nh_.subscribe("center_of_object", 10,
@@ -155,7 +155,7 @@ public:
 
 
     cv::Mat DepthImage=cv_ptr->image;
-    
+
     //cv::Mat croppedDepthImage = DepthImage(Range(10,460), Range(0,600));
 
 
@@ -181,7 +181,7 @@ public:
     int cols = croppedDepthImage.cols;
 
     //ROS_INFO("size of image %d, %d",rows,cols);
-    
+
 
     cv::Scalar red(255,255,255);
 
@@ -192,7 +192,7 @@ public:
     // cv::Mat str_el = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(7, 7));
     // morphologyEx(croppedDepthImage, croppedDepthImage, cv::MORPH_OPEN, str_el);
     // morphologyEx(croppedDepthImage, croppedDepthImage, cv::MORPH_CLOSE, str_el);
-    
+
 
     //color image is in size 640 480
 
@@ -219,7 +219,7 @@ public:
       ROS_INFO("value %f",depth_value);
       publish_location(depth_value, pt.x/cols*640, pt.y/rows*480);
       //publish_location(depth_value, center.x+320, center.y+240);
-    
+
       int circle_radius = 80;
 
       cv::circle(croppedDepthImage, pt, circle_radius, red, 3);
@@ -245,7 +245,7 @@ public:
 
 int main(int argc, char** argv)
 {
-  ros::MultiThreadedSpinner spinner(2); 
+  ros::MultiThreadedSpinner spinner(2);
   ros::init(argc, argv, "image_depth");
   ImageConverter ic;
   spinner.spin();

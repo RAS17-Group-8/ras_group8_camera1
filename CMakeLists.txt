@@ -149,6 +149,9 @@ add_executable(SVM_colors src/SVM_for_colors.cpp)
 add_executable(make_dataset_smaller src/make_dataset_smaller.cpp)
 
 add_executable(evaluate_errors src/evaluate_errors.cpp)
+add_executable(publish_evidence src/publish_evidence.cpp)
+add_executable(depth_blob src/depth_blob.cpp)
+add_executable(blob_location src/blob_location.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -184,6 +187,17 @@ target_link_libraries(make_dataset_smaller
    ${catkin_LIBRARIES}
  )
 target_link_libraries(evaluate_errors
+   ${catkin_LIBRARIES}
+ )
+target_link_libraries(publish_evidence
+   ${catkin_LIBRARIES}
+ )
+
+target_link_libraries(depth_blob
+   ${catkin_LIBRARIES}
+ )
+
+target_link_libraries(blob_location
    ${catkin_LIBRARIES}
  )
 #############

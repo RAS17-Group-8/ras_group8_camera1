@@ -214,18 +214,28 @@ public:
 
 
 
+    int xpos;
+    int ypos;
     int iteration = 0;
+
     for(std::vector<cv::KeyPoint>::iterator blobIterator = keypoints.begin(); blobIterator != keypoints.end(); blobIterator++){
        std::cout << "size of blob is: " << blobIterator->size << std::endl;
        std::cout << "point is at: " << blobIterator->pt.x << " " << blobIterator->pt.y << std::endl;
 
+       xpos = blobIterator->pt.x;
+       ypos = blobIterator->pt.y;
        center_array.data.clear();
 
-       center_array.data.push_back(blobIterator->pt.x);
-       center_array.data.push_back(blobIterator->pt.y);
+       center_array.data.push_back(xpos);//blobIterator->pt.x);
+       center_array.data.push_back(ypos);//blobIterator->pt.y);
 
 
        //manipulate blob here:
+       //FOR GETTING LOCATION:
+
+
+
+       // FOR GETTING COLOR:
        for (int i=0; i<50; i++){
            //get random pixel locations within blob:
            //ROS_INFO("1");
@@ -251,7 +261,6 @@ public:
            }
            //ROS_INFO("4");
        }
-
        for(int itr=0; itr<9;itr++) color_votes[itr] /= 50;
        std::cout << "orange:" << color_votes[0] << " red:" << color_votes[1] << " yellow:" << color_votes[2]
                     << " purple:" << color_votes[3] << " blue:" << color_votes[4] << " dark_green:" << color_votes[5]
