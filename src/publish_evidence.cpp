@@ -73,6 +73,7 @@ public:
 
   void imageCb(const sensor_msgs::ImageConstPtr& msg)
   {
+      cout<<"beginning function"<<endl;
 /*
  *
     During the final contest, record a rosbag with your group number but only record the /evidence topic which contains the evidence messages, e.g. :
@@ -120,6 +121,8 @@ rosbag record -O dd2425_ht17_Gx_phaseY /evidence*/
 
     evidence_pub_.publish(evidence);
 
+
+    cout<<"in function"<<endl;
     bag.open("/home/ras18/bagfiles/dd2425_ht17_G8_phasetest.bag", rosbag::bagmode::Write);
     bag.write("/evidence", ros::Time::now(), evidence);
     bag.close();
@@ -140,6 +143,7 @@ int main(int argc, char** argv)
   //ros::spinOnce();
 
 
+  ROS_INFO("What's up");
    ros::Rate loop_rate(2);
    for (int i=0;i<5;i++) {
        ros::spinOnce();
