@@ -17,6 +17,9 @@
 #include <ras_msgs/RAS_Evidence.h>
 #include <sensor_msgs/image_encodings.h>
 
+//for writing to rosbag:
+#include<rosbag/bag.h>
+
 using namespace cv;
 using namespace std;
 //try:
@@ -34,6 +37,8 @@ class ImageConverter
   image_transport::Subscriber image_sub_;
   
   ros::Publisher evidence_pub_;
+
+
 
   //ros::Subscriber color_vec_pub_, shape_vec_pub;
 
@@ -68,18 +73,14 @@ public:
 
   void imageCb(const sensor_msgs::ImageConstPtr& msg)
   {
-    // cv_bridge::CvImagePtr cv_ptr;
-    // try
-    // {
-    //   cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
-    // }
-    // catch (cv_bridge::Exception& e)
-    // {
-    //   ROS_ERROR("cv_bridge exception: %s", e.what());
-    //   return;
-    // }
+/*
+ *
+    During the final contest, record a rosbag with your group number but only record the /evidence topic which contains the evidence messages, e.g. :
 
-    //ROS_INFO("rows = %i, cols= %i", cv_ptr->image.rows, cv_ptr->image.cols);
+rosbag record -O dd2425_ht17_Gx_phaseY /evidence*/
+
+      rosbag::Bag bag("dd2425_ht17_G8_phasetest.bag", rosbag::bagmode:Write);
+
 
        string str;
    if (id==0) str=evidence.an_object;
@@ -117,6 +118,9 @@ public:
 
 
     evidence_pub_.publish(evidence);
+
+    bag.write("/evidence", ros::Time::now(), evidence);
+    bag.close;
 
 
     //ros::spinOnce();
