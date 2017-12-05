@@ -79,7 +79,8 @@ public:
 
 rosbag record -O dd2425_ht17_Gx_phaseY /evidence*/
 
-      rosbag::Bag bag("dd2425_ht17_G8_phasetest.bag", rosbag::bagmode:Write);
+      rosbag::Bag bag;
+
 
 
        string str;
@@ -119,8 +120,9 @@ rosbag record -O dd2425_ht17_Gx_phaseY /evidence*/
 
     evidence_pub_.publish(evidence);
 
+    bag.open("/home/ras18/bagfiles/dd2425_ht17_G8_phasetest.bag", rosbag::bagmode::Write);
     bag.write("/evidence", ros::Time::now(), evidence);
-    bag.close;
+    bag.close();
 
 
     //ros::spinOnce();
