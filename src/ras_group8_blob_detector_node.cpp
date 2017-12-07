@@ -120,27 +120,27 @@ public:
     SimpleBlobDetector::Params params;
 
     // Change thresholds
-    params.minThreshold = 5;//10;
-    params.maxThreshold = 255;//200;
+    params.minThreshold = 5;
+    params.maxThreshold = 255;
 
     // Filter by Area.
     params.filterByArea = true;
-    params.minArea = 2500;//500;//200;
-    params.maxArea = 100000;//4000;//10000;
+    params.minArea = 2500;
+    params.maxArea = 100000;
 
     // Filter by Circularity
     params.filterByCircularity = true;
-    params.minCircularity = 0;//0.2;
+    params.minCircularity = 0;
     params.maxCircularity = 1;
 
     // Filter by Convexity
     params.filterByConvexity = true;
-    params.minConvexity = 0.5;//0.8;//0.1;
+    params.minConvexity = 0.5;
     params.maxConvexity = 1;
 
     // Filter by Inertia
     params.filterByInertia = true;
-    params.minInertiaRatio = 0.1;//0.01;
+    params.minInertiaRatio = 0.1;
     params.maxInertiaRatio = 1;
 
 
@@ -284,27 +284,8 @@ public:
     }
 
 
-
-    //for getting color values in one point:
-    /*
-    Vec3b colour = drawing.at<Vec3b>(Point(x, y));
-    if(colour.val[0]==255 && colour.val[1]==255 && colour.val[2]==255)*/
-
-    //points within: (x or y) +- (<=blobsize/ (2*1.4142)) ,
-
-
     //imshow("keypoints", im_with_keypoints );
     waitKey(3);
-
-
-    //from old program:
-    // Update GUI Window
-    //cv::imshow(OPENCV_WINDOW, ThreshImage);
-    //cv::imshow(OPENCV_WINDOW, cv_ptr->image);
-    //cv::waitKey(3);    // Output modified video stream
-
-
-    //image_pub_.publish(cv_ptr->toImageMsg());
 
   }
 };

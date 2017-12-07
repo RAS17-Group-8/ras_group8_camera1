@@ -16,7 +16,6 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   geometry_msgs
-  rosbag
 )
 
 ## System dependencies are found with CMake's conventions
@@ -150,7 +149,6 @@ add_executable(SVM_colors src/SVM_for_colors.cpp)
 add_executable(make_dataset_smaller src/make_dataset_smaller.cpp)
 
 add_executable(evaluate_errors src/evaluate_errors.cpp)
-add_executable(publish_evidence src/publish_evidence.cpp)
 add_executable(depth_blob src/depth_blob.cpp)
 add_executable(blob_location src/blob_location.cpp)
 ## Rename C++ executable without prefix
@@ -190,9 +188,7 @@ target_link_libraries(make_dataset_smaller
 target_link_libraries(evaluate_errors
    ${catkin_LIBRARIES}
  )
-target_link_libraries(publish_evidence
-   ${catkin_LIBRARIES}
- )
+
 
 target_link_libraries(depth_blob
    ${catkin_LIBRARIES}
